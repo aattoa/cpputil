@@ -1,6 +1,5 @@
 #include <cpputil/io.hpp>
 #include <utility>
-#include <cassert>
 
 auto cpputil::io::detail::Lines_iterator::operator*() const -> std::string const&
 {
@@ -16,6 +15,13 @@ auto cpputil::io::detail::Lines_iterator::operator++() -> Lines_iterator&
         }
     }
     return *this;
+}
+
+auto cpputil::io::detail::Lines_iterator::operator++(int) -> Lines_iterator
+{
+    Lines_iterator copy = *this;
+    ++*this;
+    return copy;
 }
 
 auto cpputil::io::detail::Lines_iterator::operator==(Lines_sentinel) const noexcept -> bool

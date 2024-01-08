@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <string>
 #include <optional>
+#include <iterator>
 
 namespace cpputil::io::detail {
     struct Lines_sentinel {};
@@ -12,6 +13,7 @@ namespace cpputil::io::detail {
         std::FILE*  file {};
 
         auto               operator++() -> Lines_iterator&;
+        auto               operator++(int) -> Lines_iterator;
         [[nodiscard]] auto operator*() const -> std::string const&;
         [[nodiscard]] auto operator==(Lines_sentinel) const noexcept -> bool;
     };
@@ -23,6 +25,13 @@ namespace cpputil::io::detail {
         [[nodiscard]] static auto end() noexcept -> Lines_sentinel;
     };
 } // namespace cpputil::io::detail
+
+template <>
+struct std::iterator_traits<cpputil::io::detail::Lines_iterator> {
+    using difference_type  = std::ptrdiff_t;
+    using value_type       = std::string;
+    using iterator_concept = std::input_iterator_tag;
+};
 
 namespace cpputil::io {
 
