@@ -4,6 +4,26 @@
 #include <string>
 #include <optional>
 
+namespace cpputil::io::detail {
+    struct Lines_sentinel {};
+
+    struct Lines_iterator {
+        std::string line;
+        std::FILE*  file {};
+
+        auto               operator++() -> Lines_iterator&;
+        [[nodiscard]] auto operator*() const -> std::string const&;
+        [[nodiscard]] auto operator==(Lines_sentinel) const noexcept -> bool;
+    };
+
+    struct Lines {
+        std::FILE* file {};
+
+        [[nodiscard]] auto        begin() const noexcept -> Lines_iterator;
+        [[nodiscard]] static auto end() noexcept -> Lines_sentinel;
+    };
+} // namespace cpputil::io::detail
+
 namespace cpputil::io {
 
     // Lightweight owning wrapper for a C file stream. Does nothing on its own.
@@ -24,8 +44,8 @@ namespace cpputil::io {
         auto close() -> void;
 
         [[nodiscard]] explicit operator bool() const noexcept;
-        [[nodiscard]] auto is_open() const noexcept -> bool;
-        [[nodiscard]] auto get() const noexcept -> std::FILE*;
+        [[nodiscard]] auto     is_open() const noexcept -> bool;
+        [[nodiscard]] auto     get() const noexcept -> std::FILE*;
 
         static auto open_read(char const* path) -> File;
         static auto open_write(char const* path) -> File;
@@ -52,5 +72,8 @@ namespace cpputil::io {
 
     // Attempt to write `string` followed by a line feed to `file`.
     [[nodiscard]] auto write_line(std::FILE* file, std::string_view string) -> bool;
+
+    // Iterate over the lines in `file`.
+    [[nodiscard]] auto lines(std::FILE* file) -> detail::Lines;
 
 } // namespace cpputil::io

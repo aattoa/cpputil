@@ -2,6 +2,39 @@
 #include <utility>
 #include <cassert>
 
+auto cpputil::io::detail::Lines_iterator::operator*() const -> std::string const&
+{
+    return line;
+}
+
+auto cpputil::io::detail::Lines_iterator::operator++() -> Lines_iterator&
+{
+    if (file) {
+        line.clear();
+        if (!read_line(file, line)) {
+            file = nullptr;
+        }
+    }
+    return *this;
+}
+
+auto cpputil::io::detail::Lines_iterator::operator==(Lines_sentinel) const noexcept -> bool
+{
+    return file == nullptr;
+}
+
+auto cpputil::io::detail::Lines::begin() const noexcept -> Lines_iterator
+{
+    Lines_iterator iterator { .line = {}, .file = file };
+    ++iterator; // Prepare for iteration by reading the first line
+    return iterator;
+}
+
+auto cpputil::io::detail::Lines::end() noexcept -> Lines_sentinel
+{
+    return {};
+}
+
 // NOLINTBEGIN(cert-err33-c, cppcoreguidelines-owning-memory, readability-use-anyofallof)
 
 cpputil::io::File::File(std::FILE* const file) noexcept : m_file { file } {}
@@ -134,6 +167,11 @@ auto cpputil::io::write(std::FILE* const file, std::string_view const string) ->
 auto cpputil::io::write_line(std::FILE* const file, std::string_view const string) -> bool
 {
     return write(file, string) && (std::fputc('\n', file) != EOF);
+}
+
+auto cpputil::io::lines(std::FILE* const file) -> detail::Lines
+{
+    return { .file = file };
 }
 
 // NOLINTEND(cert-err33-c, cppcoreguidelines-owning-memory, readability-use-anyofallof)
