@@ -6,16 +6,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED   ON)
 set(CMAKE_CXX_EXTENSIONS          OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_library(${PROJECT_NAME} STATIC)
-target_sources(${PROJECT_NAME}
-    PRIVATE src/cpputil/io.cpp
-    PRIVATE src/cpputil/io.hpp
-    PRIVATE src/cpputil/util.cpp
-    PRIVATE src/cpputil/util.hpp)
-target_include_directories(cpputil PUBLIC src)
+function (configure_warnings target)
+    if (MSVC)
+        target_compile_options(cpputil_${name} PRIVATE "/W4")
+    else ()
+        target_compile_options(cpputil_${name} PRIVATE "-Wall" "-Wextra" "-Wpedantic")
+    endif ()
+endfunction ()
 
-if (MSVC)
-    target_compile_options(cpputil PRIVATE "/W4")
-else ()
-    target_compile_options(cpputil PRIVATE "-Wall" "-Wextra" "-Wpedantic")
-endif ()
+function (cpputil_library name)
+    add_library(cpputil_${name} STATIC)
+    add_library(cpputil::${name} ALIAS cpputil_${name})
+    target_include_directories(cpputil_${name} PUBLIC ${PROJECT_SOURCE_DIR}/src/${name})
+    configure_warnings(cpputil_${name})
+endfunction ()
+
+add_subdirectory(src/util)
+add_subdirectory(src/io)
