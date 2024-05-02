@@ -15,7 +15,7 @@ function (configure_warnings target)
 endfunction ()
 
 function (cpputil_library name)
-    add_library(cpputil_${name} STATIC)
+    add_library(cpputil_${name})
     add_library(cpputil::${name} ALIAS cpputil_${name})
     target_include_directories(cpputil_${name} PUBLIC ${PROJECT_SOURCE_DIR}/src/${name})
     configure_warnings(cpputil_${name})
@@ -23,3 +23,4 @@ endfunction ()
 
 add_subdirectory(src/util)
 add_subdirectory(src/io)
+add_subdirectory(src/input)
