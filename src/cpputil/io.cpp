@@ -1,5 +1,6 @@
 #include <cpputil/io.hpp>
 #include <utility>
+#include <algorithm>
 
 auto cpputil::io::detail::Lines_iterator::operator*() const -> std::string const&
 {
@@ -24,7 +25,7 @@ auto cpputil::io::detail::Lines_iterator::operator++(int) -> Lines_iterator
     return copy;
 }
 
-auto cpputil::io::detail::Lines_iterator::operator==(Lines_sentinel) const noexcept -> bool
+auto cpputil::io::detail::Lines_iterator::operator==(std::default_sentinel_t) const noexcept -> bool
 {
     return file == nullptr;
 }
@@ -36,12 +37,10 @@ auto cpputil::io::detail::Lines::begin() const noexcept -> Lines_iterator
     return iterator;
 }
 
-auto cpputil::io::detail::Lines::end() noexcept -> Lines_sentinel
+auto cpputil::io::detail::Lines::end() noexcept -> std::default_sentinel_t
 {
-    return {};
+    return std::default_sentinel;
 }
-
-// NOLINTBEGIN(cert-err33-c, cppcoreguidelines-owning-memory, readability-use-anyofallof)
 
 cpputil::io::File::File(std::FILE* const file) noexcept : m_file { file } {}
 
@@ -64,8 +63,7 @@ cpputil::io::File::~File()
 auto cpputil::io::File::close() -> void
 {
     if (m_file) {
-        std::fclose(m_file);
-        m_file = nullptr;
+        (void)std::fclose(std::exchange(m_file, nullptr));
     }
 }
 
@@ -159,15 +157,8 @@ auto cpputil::io::read(std::FILE* const file) -> std::optional<std::string>
 
 auto cpputil::io::write(std::FILE* const file, std::string_view const string) -> bool
 {
-    if (!file) {
-        return false;
-    }
-    for (char const character : string) {
-        if (std::fputc(character, file) == EOF) {
-            return false;
-        }
-    }
-    return true;
+    auto const put = [file](char const character) { return std::fputc(character, file) != EOF; };
+    return file && std::ranges::all_of(string, put);
 }
 
 auto cpputil::io::write_line(std::FILE* const file, std::string_view const string) -> bool
@@ -179,5 +170,3 @@ auto cpputil::io::lines(std::FILE* const file) -> detail::Lines
 {
     return { .file = file };
 }
-
-// NOLINTEND(cert-err33-c, cppcoreguidelines-owning-memory, readability-use-anyofallof)

@@ -3,4 +3,5 @@ out
 .cache
 .clang-format
 .clang-tidy
+src/experimental
 compile_commands.json

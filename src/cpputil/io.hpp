@@ -5,9 +5,7 @@
 #include <optional>
 #include <iterator>
 
-namespace cpputil::io::detail {
-    struct Lines_sentinel {};
-
+namespace cpputil::inline v0::io::detail {
     struct Lines_iterator {
         std::string line;
         std::FILE*  file {};
@@ -15,16 +13,16 @@ namespace cpputil::io::detail {
         auto               operator++() -> Lines_iterator&;
         auto               operator++(int) -> Lines_iterator;
         [[nodiscard]] auto operator*() const -> std::string const&;
-        [[nodiscard]] auto operator==(Lines_sentinel) const noexcept -> bool;
+        [[nodiscard]] auto operator==(std::default_sentinel_t) const noexcept -> bool;
     };
 
     struct Lines {
         std::FILE* file {};
 
         [[nodiscard]] auto        begin() const noexcept -> Lines_iterator;
-        [[nodiscard]] static auto end() noexcept -> Lines_sentinel;
+        [[nodiscard]] static auto end() noexcept -> std::default_sentinel_t;
     };
-} // namespace cpputil::io::detail
+} // namespace cpputil::inline v0::io::detail
 
 template <>
 struct std::iterator_traits<cpputil::io::detail::Lines_iterator> {
@@ -33,7 +31,7 @@ struct std::iterator_traits<cpputil::io::detail::Lines_iterator> {
     using iterator_concept = std::input_iterator_tag;
 };
 
-namespace cpputil::io {
+namespace cpputil::inline v0::io {
 
     // Lightweight owning wrapper for a C file stream. Does nothing on its own.
     class [[nodiscard]] File {
@@ -85,4 +83,4 @@ namespace cpputil::io {
     // Iterate over the lines in `file`.
     [[nodiscard]] auto lines(std::FILE* file) -> detail::Lines;
 
-} // namespace cpputil::io
+} // namespace cpputil::inline v0::io

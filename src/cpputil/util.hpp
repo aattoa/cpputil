@@ -5,7 +5,7 @@
 #include <string_view>
 #include <source_location>
 
-namespace cpputil {
+namespace cpputil::inline v0 {
 
     // Write `message` to `stderr` and terminate program execution with `EXIT_FAILURE`.
     [[noreturn]] auto abort(
@@ -24,4 +24,4 @@ namespace cpputil {
     // Write information about the call site to `stderr`.
     auto trace(std::source_location = std::source_location::current()) -> void;
 
-} // namespace cpputil
+} // namespace cpputil::inline v0
