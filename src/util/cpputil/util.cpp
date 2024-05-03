@@ -1,4 +1,6 @@
 #include <cpputil/util.hpp>
+#include <cstdlib>
+#include <print>
 
 auto cpputil::abort(std::string_view const message, std::source_location const caller) -> void
 {
