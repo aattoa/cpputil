@@ -8,9 +8,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 function (configure_warnings target)
     if (MSVC)
-        target_compile_options(cpputil_${name} PRIVATE "/W4")
+        target_compile_options(${target} PRIVATE "/W4")
     else ()
-        target_compile_options(cpputil_${name} PRIVATE "-Wall" "-Wextra" "-Wpedantic")
+        target_compile_options(${target} PRIVATE "-Wall" "-Wextra" "-Wpedantic")
     endif ()
 endfunction ()
 
