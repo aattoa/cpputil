@@ -1,3 +1,3 @@
 # cpputil
 
-A library of utilities that I don't want to keep rewriting for every project.
+A collection of simple libraries that I often need.
