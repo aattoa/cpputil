@@ -21,7 +21,7 @@ namespace cpputil::inline v0::json {
     }
 
     template <std::output_iterator<char> Out>
-    auto to_json(Out out, std::monostate) -> Out
+    auto to_json(Out out, Null) -> Out
     {
         return std::format_to(out, "null");
     }

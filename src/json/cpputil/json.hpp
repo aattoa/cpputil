@@ -17,9 +17,13 @@ namespace cpputil::inline v0::json {
         typename T::Boolean;
     };
 
+    struct Null {
+        auto operator==(Null const&) const -> bool = default;
+    };
+
     template <configuration Config>
     using Value_variant = std::variant<
-        std::monostate,
+        Null,
         typename Config::Object,
         typename Config::Array,
         typename Config::String,
@@ -32,7 +36,7 @@ namespace cpputil::inline v0::json {
 
         [[nodiscard]] constexpr auto is_null() const noexcept -> bool
         {
-            return std::holds_alternative<std::monostate>(variant);
+            return std::holds_alternative<Null>(variant);
         }
 
         [[nodiscard]] constexpr auto is_object() const noexcept -> bool
@@ -87,7 +91,7 @@ namespace cpputil::inline v0::json {
 
         constexpr auto clear() noexcept -> void
         {
-            variant = std::monostate {};
+            variant = Null {};
         }
     };
 
