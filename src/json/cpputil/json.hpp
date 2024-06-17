@@ -34,6 +34,12 @@ namespace cpputil::inline v0::json {
     struct Basic_value {
         Value_variant<Config> variant;
 
+        using Object  = Config::Object;
+        using Array   = Config::Array;
+        using String  = Config::String;
+        using Number  = Config::Number;
+        using Boolean = Config::Boolean;
+
         [[nodiscard]] constexpr auto is_null() const noexcept -> bool
         {
             return std::holds_alternative<Null>(variant);
@@ -41,52 +47,52 @@ namespace cpputil::inline v0::json {
 
         [[nodiscard]] constexpr auto is_object() const noexcept -> bool
         {
-            return std::holds_alternative<typename Config::Object>(variant);
+            return std::holds_alternative<Object>(variant);
         }
 
         [[nodiscard]] constexpr auto is_array() const noexcept -> bool
         {
-            return std::holds_alternative<typename Config::Array>(variant);
+            return std::holds_alternative<Array>(variant);
         }
 
         [[nodiscard]] constexpr auto is_string() const noexcept -> bool
         {
-            return std::holds_alternative<typename Config::String>(variant);
+            return std::holds_alternative<String>(variant);
         }
 
         [[nodiscard]] constexpr auto is_number() const noexcept -> bool
         {
-            return std::holds_alternative<typename Config::Number>(variant);
+            return std::holds_alternative<Number>(variant);
         }
 
         [[nodiscard]] constexpr auto is_boolean() const noexcept -> bool
         {
-            return std::holds_alternative<typename Config::Boolean>(variant);
+            return std::holds_alternative<Boolean>(variant);
         }
 
         [[nodiscard]] constexpr auto as_object(this auto&& self) -> decltype(auto)
         {
-            return std::get<typename Config::Object>(std::forward<decltype(self)>(self).variant);
+            return std::get<Object>(std::forward<decltype(self)>(self).variant);
         }
 
         [[nodiscard]] constexpr auto as_array(this auto&& self) -> decltype(auto)
         {
-            return std::get<typename Config::Array>(std::forward<decltype(self)>(self).variant);
+            return std::get<Array>(std::forward<decltype(self)>(self).variant);
         }
 
         [[nodiscard]] constexpr auto as_string(this auto&& self) -> decltype(auto)
         {
-            return std::get<typename Config::String>(std::forward<decltype(self)>(self).variant);
+            return std::get<String>(std::forward<decltype(self)>(self).variant);
         }
 
         [[nodiscard]] constexpr auto as_number(this auto&& self) -> decltype(auto)
         {
-            return std::get<typename Config::Number>(std::forward<decltype(self)>(self).variant);
+            return std::get<Number>(std::forward<decltype(self)>(self).variant);
         }
 
         [[nodiscard]] constexpr auto as_boolean(this auto&& self) -> decltype(auto)
         {
-            return std::get<typename Config::Boolean>(std::forward<decltype(self)>(self).variant);
+            return std::get<Boolean>(std::forward<decltype(self)>(self).variant);
         }
 
         constexpr auto clear() noexcept -> void
