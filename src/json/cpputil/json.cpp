@@ -103,6 +103,7 @@ auto cpputil::json::extract_escape(Parse_state& state) -> std::expected<char, Pa
     // clang-format on
 }
 
+#include <cmath>
 #include <cstdlib>
 #include <string>
 #include <string_view>
