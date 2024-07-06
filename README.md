@@ -1,19 +1,23 @@
 # cpputil
 
-A collection of simple libraries that I often need.
+A collection of simple libraries.
 
 - `cpputil::util`
 
-    Basic utilities needed by most programs.
+    Basic utilities.
 
 - `cpputil::io`
 
-    A minimal C++ interface for C standard IO.
+    Minimal C++ interface for C standard IO.
 
 - `cpputil::input`
 
-    A minimal C++ wrapper for GNU readline. Automatically uses `cpputil::io` as a fallback if readline is not available.
+    Minimal C++ wrapper for GNU readline. Automatically uses `cpputil::io` as a fallback if readline is not available.
 
 - `cpputil::json`
 
-    A simple library for encoding and decoding JSON.
+    Encodes and decodes JSON.
+
+- `cpputil::mem`
+
+    Dynamic memory management utilities.
