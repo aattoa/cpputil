@@ -1,0 +1,5 @@
+foreach (test encode decode)
+    add_executable(json-${test} ${test}.test.cpp)
+    target_link_libraries(json-${test} PRIVATE cpputil::json)
+    cppunittest_add_tests(json-${test})
+endforeach ()

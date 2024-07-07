@@ -1,0 +1,5 @@
+foreach (test unstable_string_pool)
+    add_executable(mem-${test} ${test}.test.cpp)
+    target_link_libraries(mem-${test} PRIVATE cpputil::mem)
+    cppunittest_add_tests(mem-${test})
+endforeach ()

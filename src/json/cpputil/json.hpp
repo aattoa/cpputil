@@ -40,6 +40,13 @@ namespace cpputil::inline v0::json {
         using Number  = Config::Number;
         using Boolean = Config::Boolean;
 
+        auto operator==(Basic_value const&) const -> bool = default;
+
+        [[nodiscard]] explicit constexpr operator bool() const noexcept
+        {
+            return !is_null();
+        }
+
         [[nodiscard]] constexpr auto is_null() const noexcept -> bool
         {
             return std::holds_alternative<Null>(variant);
