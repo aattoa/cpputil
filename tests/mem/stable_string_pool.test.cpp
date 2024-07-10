@@ -10,12 +10,12 @@ UNITTEST("stable string pool")
     auto const c = pool.add("helloworld");
     REQUIRE_EQUAL(pool.page_count(), 1UZ);
 
-    REQUIRE_EQUAL(a, "hello");
-    REQUIRE_EQUAL(b, "world");
-    REQUIRE_EQUAL(c, "helloworld");
+    REQUIRE_EQUAL(a.view(), "hello");
+    REQUIRE_EQUAL(b.view(), "world");
+    REQUIRE_EQUAL(c.view(), "helloworld");
 
-    REQUIRE_EQUAL((void*)a.data(), (void*)c.data());
-    REQUIRE_EQUAL((void*)(a.data() + a.size()), (void*)b.data());
+    REQUIRE_EQUAL((void*)a.view().data(), (void*)c.view().data());
+    REQUIRE_EQUAL((void*)(a.view().data() + a.view().size()), (void*)b.view().data());
 
     (void)pool.add("abcdefghi");
     REQUIRE_EQUAL(pool.page_count(), 2UZ);
