@@ -39,4 +39,6 @@ UNITTEST("json decode")
             Json { Json::Array { Json { Json::Array {} } } },
             Json { 10.0 },
         } });
+
+    CHECK_EQUAL(cpputil::json::decode(R"("hello\t\\tworld")").value(), Json { "hello\t\\tworld" });
 }

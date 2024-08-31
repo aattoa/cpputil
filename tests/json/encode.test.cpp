@@ -38,4 +38,6 @@ UNITTEST("json encode")
             Json { 10.0 },
         } }),
         R"([{},null,3.3,[],[[]],10])");
+
+    CHECK_EQUAL(cpputil::json::encode(Json { "hello\t\\tworld" }), R"("hello\t\\tworld")");
 }

@@ -17,7 +17,7 @@ namespace cpputil::inline v0::json {
     template <std::output_iterator<char> Out>
     auto to_json(Out out, std::string_view const string) -> Out
     {
-        return std::format_to(out, "\"{}\"", string);
+        return std::format_to(out, "{:?}", string);
     }
 
     template <std::output_iterator<char> Out>
