@@ -16,10 +16,17 @@ namespace cpputil::inline v0 {
     // Mark a branch as unreachable. Calls `cpputil::abort` with an appropriate message.
     [[noreturn]] auto unreachable(std::source_location = std::source_location::current()) -> void;
 
-    // If `value` is false, call `cpputil::abort` with an appropriate message.
-    auto always_assert(bool value, std::source_location = std::source_location::current()) -> void;
-
     // Write information about the call site to `stderr`.
     auto trace(std::source_location = std::source_location::current()) -> void;
+
+    // If `condition` is false, call `cpputil::abort` with an appropriate message.
+    constexpr auto always_assert(
+        bool const                 condition,
+        std::source_location const caller = std::source_location::current()) -> void
+    {
+        if (!condition) [[unlikely]] {
+            abort("Assertion failed", caller);
+        }
+    }
 
 } // namespace cpputil::inline v0

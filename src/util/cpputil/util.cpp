@@ -25,13 +25,6 @@ auto cpputil::unreachable(std::source_location const caller) -> void
     abort("Unreachable branch reached", caller);
 }
 
-auto cpputil::always_assert(bool const value, std::source_location const caller) -> void
-{
-    if (!value) [[unlikely]] {
-        abort("Assertion failed", caller);
-    }
-}
-
 auto cpputil::trace(std::source_location const caller) -> void
 {
     std::println(
