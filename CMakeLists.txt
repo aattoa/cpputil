@@ -26,6 +26,7 @@ add_subdirectory(src/io)
 add_subdirectory(src/input)
 add_subdirectory(src/json)
 add_subdirectory(src/mem)
+add_subdirectory(src/fn)
 
 option(CPPUTIL_BUILD_TESTS "Build cpputil tests" OFF)
 if (${CPPUTIL_BUILD_TESTS})

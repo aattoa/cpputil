@@ -1,0 +1,5 @@
+foreach (test function_ref)
+    add_executable(fn-${test} ${test}.test.cpp)
+    target_link_libraries(fn-${test} PRIVATE cpputil::fn)
+    cppunittest_add_tests(fn-${test})
+endforeach ()

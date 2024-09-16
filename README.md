@@ -21,3 +21,7 @@ A collection of simple libraries.
 - `cpputil::mem`
 
     Dynamic memory management utilities.
+
+- `cpputil::fn`
+
+    Function objects, wrappers, and helpers.
