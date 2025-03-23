@@ -22,6 +22,7 @@ function (cpputil_library name)
 endfunction ()
 
 add_subdirectory(src/util)
+add_subdirectory(src/num)
 add_subdirectory(src/io)
 add_subdirectory(src/input)
 add_subdirectory(src/json)
