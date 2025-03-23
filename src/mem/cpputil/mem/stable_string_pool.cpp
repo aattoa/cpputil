@@ -48,6 +48,7 @@ auto cpputil::mem::Stable_string_pool::add(std::string_view const string) -> Sta
         page_it = m_pages.insert(m_pages.cend(), std::move(new_page));
     }
 
-    auto const it = page_it->insert_range(page_it->cend(), string);
-    return Stable_pool_string(std::string_view(std::to_address(it), string.size()));
+    auto const offset = page_it->size();
+    std::ranges::copy(string, std::back_inserter(*page_it));
+    return Stable_pool_string(std::string_view(page_it->data() + offset, string.size()));
 }

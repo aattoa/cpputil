@@ -14,15 +14,11 @@ UNITTEST("stable string pool")
     REQUIRE_EQUAL(b.view(), "world");
     REQUIRE_EQUAL(c.view(), "helloworld");
 
-    REQUIRE_EQUAL((void*)a.view().data(), (void*)c.view().data());
-    REQUIRE_EQUAL((void*)(a.view().data() + a.view().size()), (void*)b.view().data());
+    REQUIRE_EQUAL((void const*)a.view().data(), (void const*)c.view().data());
+    REQUIRE_EQUAL((void const*)(a.view().data() + a.view().size()), (void const*)b.view().data());
 
     (void)pool.add("abcdefghi");
     REQUIRE_EQUAL(pool.page_count(), 2UZ);
     (void)pool.add("0123456789");
     REQUIRE_EQUAL(pool.page_count(), 3UZ);
-
-    // TODO
-    // (void)pool.add("ghij");
-    // REQUIRE_EQUAL(pool.page_count(), 3UZ);
 }

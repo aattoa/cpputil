@@ -19,7 +19,7 @@ auto cpputil::mem::Unstable_string_pool::add(std::string_view const string) -> R
     }
     else {
         offset = m_vector.size();
-        m_vector.append_range(string);
+        std::ranges::copy(string, std::back_inserter(m_vector));
     }
 
     return { .offset = offset, .length = string.length() };
