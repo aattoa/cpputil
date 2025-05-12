@@ -3,6 +3,7 @@
 #include <concepts>
 #include <stdexcept>
 #include <utility>
+#include <limits>
 
 namespace cpputil::inline v0::num {
 

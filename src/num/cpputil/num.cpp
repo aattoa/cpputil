@@ -1,4 +1,5 @@
 #include <cpputil/num.hpp>
+#include <cstdint>
 
 cpputil::num::Safe_cast_invalid_argument::Safe_cast_invalid_argument()
     : invalid_argument("cpputil::num::safe_cast argument out of target range")
