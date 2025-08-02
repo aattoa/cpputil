@@ -21,7 +21,7 @@ namespace cpputil::inline v0::fn {
         Ref    m_ref;
         Thunk* m_thunk;
     public:
-        constexpr Basic_function_ref(R (&f)(Args...) noexcept(nothrow_invoke))
+        explicit(false) constexpr Basic_function_ref(R (&f)(Args...) noexcept(nothrow_invoke))
             : m_ref { .m_fp = f }
             , m_thunk { [](Ref const ref, Args... args) noexcept(nothrow_invoke) {
                 return ref.m_fp(std::forward<Args>(args)...);
@@ -29,7 +29,8 @@ namespace cpputil::inline v0::fn {
         {}
 
         template <std::invocable<Args...> Object>
-        constexpr Basic_function_ref(Object& object) noexcept
+            requires(not std::is_same_v<Object, Basic_function_ref>)
+        explicit(false) constexpr Basic_function_ref(Object& object) noexcept
             : m_ref { .m_ptr = std::addressof(object) }
             , m_thunk { [](Ref const ref, Args... args) noexcept(nothrow_invoke) {
                 return std::invoke(
@@ -38,7 +39,7 @@ namespace cpputil::inline v0::fn {
         {}
 
         constexpr auto operator()(Args... args) noexcept(nothrow_invoke) -> R
-            requires(!const_invoke)
+            requires(not const_invoke)
         {
             return m_thunk(m_ref, std::forward<Args>(args)...);
         }
